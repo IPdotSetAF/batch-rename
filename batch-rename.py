@@ -3,6 +3,17 @@ import re
 import argparse
 import sys
 
+COLORS = {
+    "red": '\033[31m',
+    "green": '\033[32m',
+    "yellow": '\033[33m',
+    "blue": '\033[34m',
+    "magenta": '\033[35m',
+    "cyan": '\033[36m',
+    "white": '\033[37m',
+    "reset" : '\033[0m',
+}
+
 silent = False
 
 def p(str, force_print = False):
@@ -46,9 +57,9 @@ def main():
         return
     
     # Display files to be renamed
-    p(f"Found {len(files)} matches:")
+    p(f"Found {len(matched_files)} matches:")
     for old, new in matched_files:
-        p(f"{old} -> {new}", args.dry_run)
+        p(f"{COLORS['red']}{old}{COLORS['reset']}->\t{COLORS['green']}{new}{COLORS['reset']}", args.dry_run)
     
     # Perform renaming
     if args.dry_run:
