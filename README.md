@@ -69,6 +69,7 @@ batch-rename "old" "new" --silent
 **This tool was developed in the unlawful Nation-wide Internet cutoff in Iran due to lack of access to similar tools on the Internet.**
 
 **Differentiated Internet Access is against Iranian Constitutional Law**
+
 **Each and every people have the right to access Internet as equals.**
 
 **Internet was cutoff on us (and still is) with the excuse of US and Israel ter\*rist regime unlawful war against Iran which ki\*led thousonds of innocent people and hundreds of children.**
