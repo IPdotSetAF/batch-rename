@@ -63,3 +63,14 @@ batch-rename "old" "new" --silent
    2. Create a new branch for your feature/bugfix in your forked Repo.
    3. Commit your changes to the new branch you just made.
    4. Create a pull request from your branch into the `master` branch of This Repo([https://github.com/IPdotSetAF/batch-rename](https://github.com/IPdotSetAF/batch-rename)).
+
+---
+
+**This tool was developed in the unlawful Nation-wide Internet cutoff in Iran due to lack of access to similar tools on the Internet.**
+
+**Differentiated Internet Access is against Iranian Constitutional Law**
+**Each and every people have the right to access Internet as equals.**
+
+**Internet was cutoff on us (and still is) with the excuse of US and Israel ter\*rist regime unlawful war against Iran which ki\*led thousonds of innocent people and hundreds of children.**
+
+**This tool was designed to be minimal and get its job done. Share our voice with the world by staring, using and inviting others to use this tool.**
