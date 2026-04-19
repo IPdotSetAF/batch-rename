@@ -3,6 +3,8 @@ import re
 import argparse
 import sys
 
+VERSION = 'v1.0.0'
+
 COLORS = {
     "red": '\033[31m',
     "green": '\033[32m',
@@ -31,6 +33,7 @@ def main():
     {sys.argv[0]} \"^file_(\\d+)\\.txt$\" \"doc_\\1.txt\"""",
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
+    parser.add_argument('-v', '--version', action='version', version=f'batch-rename {VERSION}')
     parser.add_argument('pattern', help='Regex pattern to match files')
     parser.add_argument('replacement', help='Replacement string')
     parser.add_argument('-y', '--yes', action='store_true', help='Skip confirmation')
@@ -81,3 +84,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
