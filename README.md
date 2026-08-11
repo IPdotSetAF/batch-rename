@@ -1,8 +1,9 @@
 # Batch Rename
-A simple command-line tool for renaming multiple files using regex patterns.
+A simple command-line tool for renaming multiple files and directories using regex patterns.
 
 ## Features
-- Rename multiple files using regular expressions
+- Rename multiple files and/or directories using regular expressions
+- Filter targets by type: files only, directories only, or both
 - Preview changes before applying them
 - Dry-run mode to test without actually renaming
 - Silent mode for automated use
@@ -23,13 +24,14 @@ batch-rename <pattern> <replacement> \[options]
 ```
 
 ### Arguments
-- `pattern`: Regular expression pattern to match files
+- `pattern`: Regular expression pattern to match filenames/directory names
 - `replacement`: Replacement string (can include regex groups like $1, $2, etc.)
 
 ### Options
 - `-y, --yes`: Skip confirmation prompt
 - `-d, --dry-run`: Show what would be renamed without actually renaming
 - `-s, --silent`: Suppress all output
+- `-t, --type <f|d|a>`: Entry type to rename: `f`=files only (default), `d`=directories only, `a`=all
 
 ## Examples
 ### Basic renaming
@@ -43,6 +45,14 @@ batch-rename "\\.txt$" ".bak"
 ### Rename with capture groups
 ```bash
 batch-rename "file\_(\\d+)\\.txt" "document\_$1.txt"
+```
+### Rename directories only
+```bash
+batch-rename "old" "new" --type d
+```
+### Rename both files and directories
+```bash
+batch-rename "old" "new" --type a
 ```
 ### Preview changes
 ```bash
