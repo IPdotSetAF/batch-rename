@@ -3,7 +3,7 @@ import re
 import argparse
 import sys
 
-VERSION = 'v1.0.0'
+VERSION = 'v2.0.0'
 
 COLORS = {
     "red": '\033[31m',
