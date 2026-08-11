@@ -44,14 +44,21 @@ def main():
     
     silent = args.silent
 
+    # Compile the regex pattern, exit early on invalid pattern
+    try:
+        pattern = re.compile(args.pattern)
+    except re.error as e:
+        p(f"{COLORS['red']}Invalid regex pattern: {e}{COLORS['reset']}\nUse --help to see example usage.", force_print=True)
+        sys.exit(1)
+
     # Find all files in current directory
     files = [f for f in os.listdir('.') if os.path.isfile(f)]
     
     # Filter files matching pattern
     matched_files = []
     for file in files:
-        if re.match(args.pattern, file):
-            new_name = re.sub(args.pattern, args.replacement, file)
+        if pattern.match(file):
+            new_name = pattern.sub(args.replacement, file)
             if new_name != file:
                 matched_files.append((file, new_name))
     
