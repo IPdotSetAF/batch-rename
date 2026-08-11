@@ -4,6 +4,7 @@ A simple command-line tool for renaming multiple files and directories using reg
 ## Features
 - Rename multiple files and/or directories using regular expressions
 - Filter targets by type: files only, directories only, or both
+- Recursive mode to rename across all subdirectories
 - Preview changes before applying them
 - Dry-run mode to test without actually renaming
 - Silent mode for automated use
@@ -32,6 +33,7 @@ batch-rename <pattern> <replacement> \[options]
 - `-d, --dry-run`: Show what would be renamed without actually renaming
 - `-s, --silent`: Suppress all output
 - `-t, --type <f|d|a>`: Entry type to rename: `f`=files only (default), `d`=directories only, `a`=all
+- `-r, --recursive`: Recursively rename in all subdirectories
 
 ## Examples
 ### Basic renaming
@@ -53,6 +55,14 @@ batch-rename "old" "new" --type d
 ### Rename both files and directories
 ```bash
 batch-rename "old" "new" --type a
+```
+### Rename files recursively across all subdirectories
+```bash
+batch-rename "old" "new" --recursive
+```
+### Rename all files and directories recursively
+```bash
+batch-rename "old" "new" --type a --recursive
 ```
 ### Preview changes
 ```bash
