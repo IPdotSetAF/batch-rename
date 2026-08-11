@@ -41,6 +41,8 @@ def main():
     parser.add_argument('-s', '--silent', action='store_true', help='Silent mode - no output')
     parser.add_argument('-t', '--type', choices=['f', 'd', 'a'], default='f',
                         help='Entry type to rename: f=files only (default), d=directories only, a=all')
+    parser.add_argument('-r', '--recursive', action='store_true',
+                        help='Recursively rename in all subdirectories')
     
     args = parser.parse_args()
     
@@ -53,25 +55,48 @@ def main():
         p(f"{COLORS['red']}Invalid regex pattern: {e}{COLORS['reset']}\nUse --help to see example usage.", force_print=True)
         sys.exit(1)
 
-    # Find entries in current directory based on type filter
     entry_type = args.type
-    files = [
-        f for f in os.listdir('.')
-        if (entry_type == 'a')
-        or (entry_type == 'f' and os.path.isfile(f))
-        or (entry_type == 'd' and os.path.isdir(f))
-    ]
-    
-    # Filter files matching pattern
     matched_files = []
-    for file in files:
-        if pattern.match(file):
-            new_name = pattern.sub(args.replacement, file)
-            if new_name != file:
-                matched_files.append((file, new_name))
+
+    if args.recursive:
+        # Walk bottom-up so children are always renamed before their parent directory.
+        # For each directory visited, collect files first then the directory itself,
+        # preserving the correct rename order even when parent dirs also match.
+        for dirpath, dirnames, filenames in os.walk('.', topdown=False):
+            if entry_type in ('f', 'a'):
+                for filename in filenames:
+                    if pattern.match(filename):
+                        new_name = pattern.sub(args.replacement, filename)
+                        if new_name != filename:
+                            matched_files.append((
+                                os.path.join(dirpath, filename),
+                                os.path.join(dirpath, new_name)
+                            ))
+            if entry_type in ('d', 'a') and dirpath != '.':
+                dirname = os.path.basename(dirpath)
+                if pattern.match(dirname):
+                    new_name = pattern.sub(args.replacement, dirname)
+                    if new_name != dirname:
+                        matched_files.append((
+                            dirpath,
+                            os.path.join(os.path.dirname(dirpath), new_name)
+                        ))
+    else:
+        # Non-recursive: current directory only
+        entries = [
+            f for f in os.listdir('.')
+            if (entry_type == 'a')
+            or (entry_type == 'f' and os.path.isfile(f))
+            or (entry_type == 'd' and os.path.isdir(f))
+        ]
+        for entry in entries:
+            if pattern.match(entry):
+                new_name = pattern.sub(args.replacement, entry)
+                if new_name != entry:
+                    matched_files.append((entry, new_name))
     
     if not matched_files:
-        p("No files matched the pattern")
+        p("No entries matched the pattern")
         return
     
     # Display files to be renamed
@@ -81,7 +106,7 @@ def main():
     
     # Perform renaming
     if args.dry_run:
-        p("Dry run complete - no files were renamed")
+        p("Dry run complete - no entries were renamed")
         return
     
     # Ask for confirmation
