@@ -38,7 +38,9 @@ def main():
     parser.add_argument('replacement', help='Replacement string')
     parser.add_argument('-y', '--yes', action='store_true', help='Skip confirmation')
     parser.add_argument('-d', '--dry-run', action='store_true', help='Show what would be renamed without actually renaming')
-    parser.add_argument('-s', '--silent', action='store_true', help='Silent mode - no output' )
+    parser.add_argument('-s', '--silent', action='store_true', help='Silent mode - no output')
+    parser.add_argument('-t', '--type', choices=['f', 'd', 'a'], default='f',
+                        help='Entry type to rename: f=files only (default), d=directories only, a=all')
     
     args = parser.parse_args()
     
@@ -51,8 +53,14 @@ def main():
         p(f"{COLORS['red']}Invalid regex pattern: {e}{COLORS['reset']}\nUse --help to see example usage.", force_print=True)
         sys.exit(1)
 
-    # Find all files in current directory
-    files = [f for f in os.listdir('.') if os.path.isfile(f)]
+    # Find entries in current directory based on type filter
+    entry_type = args.type
+    files = [
+        f for f in os.listdir('.')
+        if (entry_type == 'a')
+        or (entry_type == 'f' and os.path.isfile(f))
+        or (entry_type == 'd' and os.path.isdir(f))
+    ]
     
     # Filter files matching pattern
     matched_files = []
